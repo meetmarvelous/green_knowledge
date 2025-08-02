@@ -1,0 +1,43 @@
+green_knowledge/
+├── assets/
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   └── styles.css
+│   ├── js/
+│   │   ├── bootstrap.bundle.min.js
+│   │   └── main.js
+│   └── images/
+│       ├── logos/
+│       ├── tree_photos/ (empty)
+│       └── qr_codes/ (empty)
+├── includes/
+│   ├── config.php
+│   ├── db.php
+│   ├── auth.php
+│   ├── header.php
+│   ├── footer.php
+│   ├── functions.php
+│   └── phpqrcode/
+│       └── qrlib.php
+├── admin/
+│   ├── dashboard.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── trees/
+│   │   ├── index.php
+│   │   ├── add.php
+│   │   ├── edit.php
+│   │   └── delete.php
+│   ├── qr_generator.php
+│   └── export.php
+├── pages/
+│   ├── home.php
+│   ├── list.php
+│   ├── tree.php
+│   ├── search.php
+│   ├── about.php
+│   └── contact.php
+├── qr/
+│   └── generate.php
+├── index.php
+└── .htaccess

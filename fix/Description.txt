@@ -1,0 +1,131 @@
+Description
+My project is about using barcode technology to help identify and document the different tree species in the Botanical Garden at the University of Ibadan. The idea is to make it easier for people, like students, researchers, and visitors to learn more about the trees in a quick and interactive way. First, I will walk through the garden and record important details about each tree, such as its scientific name, local name, uses, physical features, and location. After collecting all this information, I will create a digital record for each tree.
+
+Then, I will generate a unique barcode or QR code for every tree. These barcodes will be printed and attached to the trees on weather-resistant labels. When someone scans a barcode using a smartphone or barcode scanner, they will instantly see all the information about that particular tree on a website. This makes learning about the trees more fun, faster, and more accurate. It will also help in keeping a digital inventory of the trees and tracking their health and growth over time. Overall, the project is meant to make the garden smarter and more educational for everyone who visits or works there.
+
+*Estimated number of trees*
+40 tree species from 20 families would be spread across the garden in 4 frequencies each, making a total of 160 trees that would be tagged.
+
+
+*Name for web app*
+GREEN KNOWLEDGE
+
+*Sample description*
+
+_Terminalia superba_
+
+1. Botanical (Scientific) Name
+_Terminalia superba_ Engl. & Diels
+
+
+2. Common Name(s)
+White afara, Limba (English)
+Afara (Yoruba)
+Ofara (Igbo)
+Dokun yaro (Hausa)
+
+
+3. Family Name
+Combretaceae
+
+
+4. Origin and Distribution
+Native to West and Central Africa.
+Found in tropical rainforests across Nigeria, Ghana, Cameroon, and Congo.
+Commonly cultivated in forest reserves and botanical gardens in Nigeria.
+
+
+5. Physical Description
+A tall deciduous tree reaching 30–45 meters in height.
+Straight, cylindrical bole often branchless up to 20 meters.
+Bark is smooth to slightly fissured, greyish-brown in color.
+Leaves are simple, arranged in whorls near branch tips, elliptical in shape.
+Flowers are small, creamy-white, and borne in slender spikes.
+Fruits are winged, resembling a small propeller.
+
+
+6. Ecological Information
+Prefers well-drained, deep loamy soils.
+Grows best in humid lowland forests with full sunlight.
+Tolerates secondary forest conditions.
+Flowers around February to April and fruits between May and July.
+Provides shade and helps reduce soil erosion.
+
+
+7. Conservation Status
+Listed as Least Concern on the IUCN Red List.
+However, locally threatened in areas due to overexploitation for timber.
+
+
+8. Uses and Economic Importance
+Highly valued for timber—lightweight and easy to work with.
+Used in furniture, veneer, plywood, and interior finishing.
+Bark is used in traditional medicine for treating cough and infections.
+Culturally significant in some communities as a symbol of prestige.
+Often planted for reforestation and ornamental purposes.
+
+
+9. Geotag (GPS Coordinates)
+Latitude: 7.4419° N, Longitude: 3.8945° E
+
+
+10. Photographic Documentation
+
+11. Tree ID Code
+UI-BG-TS-012
+
+12. Health and Condition
+Healthy, with no visible signs of disease or pest infestation.
+Bark intact; crown is full with healthy green foliage.
+
+
+13. Remarks or Notes
+Often mistaken for Triplochiton scleroxylon due to similar growth form.
+Its light-colored wood and rapid growth make it a preferred species in sustainable timber farming and forest plantation trials.
+
+
+
+______________________________________________
+Improve this prompt below from the details above,add details that aren't added to the prompt already concise and well detailed:
+
+Build a Web Application for details above
+Overview: (give me concisely)
+
+
+Key Features:
+
+A main webpage that gives where all trees are listed by family,tree species. (with search functionality at the nav bar)
+A tree details page for each tree showing all details of the tree.
+A search page to search for any details of any tree from the database.
+An admin dashboard to manage the website for CRUD operations, and can export the QR code picture for each tree link
+and other pages .
+
+
+Database Design:
+The application uses a MySQL database, add every other necessary features and tables.
+
+Frontend Design:
+Built with Bootstrap 5 for responsive, modern styling, and User-friendly.
+
+Admin Dashboard :
+Create, read, edit, delete all trees details from the database.
+Making it possible to add new tree details (table data) for all trees and delete any existing one for all trees
+Be able to create QR code pictures that will never expire that link to the web page of each tree page.
+
+Technology Stack:
+Backend: PHP (Procedural), MySQL (MySQLi Procedural).
+Frontend: HTML, CSS, Bootstrap 5, JavaScript (optional for enhanced interactivity).
+Development Tools: XAMPP or any local server setup for testing.
+QR Code generation integration.
+
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=green_knowledge
+
+Instructions for Building the Application:
+Create other necessary files
+Give me the file structure first, then give me the file codes
+
+

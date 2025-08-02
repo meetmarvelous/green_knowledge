@@ -1,0 +1,84 @@
+List the file structure as
+assets/css/style.css
+
+
+
+green_knowledge/
+├── assets/
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   └── styles.css
+│   ├── js/
+│   │   ├── bootstrap.bundle.min.js
+│   │   └── main.js
+│   └── images/
+│       ├── logos/
+│       ├── tree_photos/ (empty)
+│       └── qr_codes/ (empty)
+├── includes/
+│   ├── config.php
+│   ├── db.php
+│   ├── auth.php
+│   ├── header.php
+│   ├── footer.php
+│   ├── functions.php
+│   └── phpqrcode/
+│       └── qrlib.php
+├── admin/
+│   ├── dashboard.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── trees/
+│   │   ├── index.php
+│   │   ├── add.php
+│   │   ├── edit.php
+│   │   └── delete.php
+│   ├── qr_generator.php
+│   └── export.php
+├── pages/
+│   ├── home.php
+│   ├── list.php
+│   ├── tree.php
+│   ├── search.php
+│   ├── about.php
+│   └── contact.php
+├── qr/
+│   └── generate.php
+├── index.php
+└── .htaccess
+
+
+
+
+assets/css/bootstrap.min.css
+assets/css/styles.css
+assets/js/bootstrap.bundle.min.js
+assets/js/main.js
+assets/images/logos/
+assets/images/tree_photos/
+assets/images/qr_codes/
+includes/config.php
+includes/db.php
+includes/auth.php
+includes/header.php
+includes/footer.php
+includes/functions.php
+includes/phpqrcode/qrlib.php
+admin/dashboard.php
+admin/login.php
+admin/logout.php
+admin/trees/index.php
+admin/trees/add.php
+admin/trees/edit.php
+admin/trees/delete.php
+admin/qr_generator.php
+admin/export.php
+pages/home.php
+pages/list.php
+pages/tree.php
+pages/search.php
+pages/about.php
+pages/contact.php
+qr/generate.php
+index.php
+.htaccess

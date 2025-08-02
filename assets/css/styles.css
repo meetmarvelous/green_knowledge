@@ -1,0 +1,88 @@
+/* Main Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin-bottom: 1.5rem;
+  border: none;
+}
+
+.card-header {
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+/* Tree Cards */
+.tree-card-img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* QR Code Styling */
+.qr-code {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+/* Footer */
+footer {
+  margin-top: 3rem;
+}
+
+/* About Page */
+.team-member-card {
+  transition: transform 0.3s;
+}
+
+.team-member-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Contact Form */
+.contact-info address p {
+  margin-bottom: 0.5rem;
+}
+
+.social-links a {
+  transition: opacity 0.3s;
+}
+
+.social-links a:hover {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+/* Admin Dashboard */
+.dashboard-stat-card {
+  border-radius: 0.5rem;
+  color: white;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .jumbotron {
+      padding: 2rem 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar, footer, .no-print {
+      display: none !important;
+  }
+  
+  .card {
+      box-shadow: none;
+      border: 1px solid #dee2e6;
+  }
+}

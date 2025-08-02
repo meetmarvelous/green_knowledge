@@ -1,0 +1,138 @@
+# Simplified GREEN KNOWLEDGE Web Application Prompt
+
+## Overview
+Build a streamlined web application called "GREEN KNOWLEDGE" for the University of Ibadan Botanical Garden that enables tree species documentation and identification through barcode/QR code technology. The system will manage 160 trees across 40 species from 20 families, providing detailed botanical information accessible via web interface and scannable codes.
+
+## Key Features
+
+1. **Main Webpage**
+   - Grid/List view of all trees with sorting by family, scientific name, or tree code
+   - Simple search functionality in navbar (name, family, or any field)
+   - Responsive card-based design for tree display
+
+2. **Tree Details Page**
+   - Complete display of all 13 information categories per tree
+   - Photo display (as much as 5)
+   - GPS coordinates displayed as text (no map integration)
+   - QR code display for easy scanning/sharing
+
+3. **Search System**
+   - Basic search with filters for family, conservation status
+   - Full-text search across key attributes
+   - Simple results display
+
+4. **Admin Dashboard**
+   - Secure login system
+   - Full CRUD operations for tree records.
+   - Making it possible to add new tree details (table data) for all trees and delete any existing one for all trees
+   - QR code generation with download options (PNG)
+   - Data export functionality
+
+5. **Additional Pages**
+   - About page explaining the project
+   - Contact form
+   - and any other necessary one
+
+
+## Database Design (MySQL)
+
+### Tables
+
+1. **trees**
+   - tree_id (PK, auto-increment)
+   - scientific_name
+   - common_names (JSON)
+   - family_id (FK)
+   - origin_distribution (text)
+   - physical_description (text)
+   - ecological_info (text)
+   - conservation_status
+   - uses_economic (text)
+   - geotag_lat
+   - geotag_lng
+   - tree_code (e.g. UI-BG-TS-012)
+   - health_status
+   - remarks
+   - created_at
+   - updated_at
+
+2. **families**
+   - family_id (PK)
+   - family_name
+   - family_description
+
+3. **tree_photos**
+   - photo_id (PK)
+   - tree_id (FK)
+   - photo_path
+   - caption
+   - is_primary
+
+4. **users**
+   - user_id (PK)
+   - username
+   - password_hash
+   - email
+   - role (admin, editor)
+   - last_login
+
+## Simplified File Structure
+
+```
+green_knowledge/
+├── assets/
+│   ├── css/
+│   │   ├── bootstrap.min.css
+│   │   ├── styles.css
+│   ├── js/
+│   │   ├── bootstrap.bundle.min.js
+│   │   ├── main.js
+│   ├── images/
+│   │   ├── logos/
+│   │   ├── tree_photos/
+│   │   ├── qr_codes/
+├── includes/
+│   ├── config.php
+│   ├── db.php
+│   ├── auth.php
+│   ├── header.php
+│   ├── footer.php
+│   ├── functions.php
+├── admin/
+│   ├── dashboard.php
+│   ├── trees/
+│   │   ├── index.php
+│   │   ├── add.php
+│   │   ├── edit.php
+│   │   ├── delete.php
+│   ├── qr_generator.php
+├── pages/
+│   ├── home.php (including little list/grid view of the last few uploaded trees, with view more that leads to list.php)
+│   ├── list.php (list/grid view)
+│   ├── tree.php (detail view for each tree)  
+│   ├── search.php
+│   ├── about.php
+│   ├── contact.php
+├── qr/
+│   ├── generate.php
+├── index.php
+```
+
+## Technology Stack
+
+**Backend:**
+- PHP (Procedural)
+- MySQL (MySQLi Procedural)
+- PHP QR Code library
+
+**Frontend:**
+- HTML5
+- CSS3
+- Bootstrap 5
+- Minimal JavaScript for basic interactivity
+
+Instructions for Building the Application:
+
+Create other necessary files if needed
+Give me the file structure first, then give me the file codes one after the other.
+
