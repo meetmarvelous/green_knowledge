@@ -4,13 +4,16 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} ^(.*)/{2,}(.*)$
 RewriteRule ^ %1/%2 [R=301,L]
 
+# Redirect root to pages/home.php
+RewriteRule ^$ pages/home.php [L]
+
+# Handle tree details URLs
+RewriteRule ^tree\.php$ pages/tree.php [L]
+
 # Remove .php extension
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php [L]
-
-# Redirect root to pages/home.php
-RewriteRule ^$ pages/home.php [L]
 
 # Handle requests for non-existent files/directories
 RewriteCond %{REQUEST_FILENAME} !-f

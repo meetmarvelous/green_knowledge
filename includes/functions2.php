@@ -110,16 +110,21 @@ function generate_qr_with_record($tree_id)
         }
 
         // Database operations
+        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         $qr_path_db = escape_string($qr_path);
 
         // Deactivate old QR codes for this tree
-        query("UPDATE qr_codes SET is_active = FALSE WHERE tree_id = $tree_id");
+        mysqli_query($conn, "UPDATE qr_codes SET is_active = FALSE WHERE tree_id = $tree_id");
 
         // Insert new record
-        query("INSERT INTO qr_codes (tree_id, qr_path) VALUES ($tree_id, '$qr_path_db')");
+        $insert_sql = "INSERT INTO qr_codes (tree_id, qr_path) VALUES ($tree_id, '$qr_path_db')";
+        if (!mysqli_query($conn, $insert_sql)) {
+            throw new Exception("Database error: " . mysqli_error($conn));
+        }
 
         // Update tree record
-        query("UPDATE trees SET qr_code_path = '$qr_path_db' WHERE tree_id = $tree_id");
+        $update_sql = "UPDATE trees SET qr_code_path = '$qr_path_db' WHERE tree_id = $tree_id";
+        mysqli_query($conn, $update_sql);
 
         return [
             'success' => true,
@@ -149,7 +154,7 @@ function get_active_qr_code($tree_id)
 }
 
 /**
- * Delete tree and handle QR codes (archive instead of delete)
+ * Delete tree and handle QR codes
  */
 function delete_tree($tree_id)
 {
@@ -159,7 +164,17 @@ function delete_tree($tree_id)
     query("UPDATE qr_codes SET is_active = FALSE WHERE tree_id = $tree_id");
 
     // Delete tree record
-    return query("DELETE FROM trees WHERE tree_id = $tree_id");
+    $sql = "DELETE FROM trees WHERE tree_id = $tree_id";
+    return query($sql);
+}
+
+/**
+ * Escape string for database queries
+ */
+function escape_string($string)
+{
+    global $conn;
+    return mysqli_real_escape_string($conn, $string);
 }
 
 /**
@@ -172,14 +187,4 @@ function debug_log($message, $data = null)
         $log .= " - " . print_r($data, true);
     }
     error_log($log);
-}
-
-/**
- * Check if a tree exists
- */
-function tree_exists($tree_id)
-{
-    $tree_id = escape_string($tree_id);
-    $result = query("SELECT tree_id FROM trees WHERE tree_id = $tree_id");
-    return (num_rows($result) > 0);
 }

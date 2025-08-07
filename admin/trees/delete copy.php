@@ -1,24 +1,48 @@
 <?php
-require_once __DIR__ . '/../../includes/auth.php';
-require_once __DIR__ . '/../../includes/db.php';
-require_once __DIR__ . '/../../includes/qr_functions.php';
+require_once '../../includes/auth.php';
+require_once '../../includes/db.php';
+require_once '../../includes/functions.php';
 
-if (!is_logged_in() || !is_admin()) {
-    header('Location: ../../login.php');
+if (!is_logged_in()) {
+    header('Location: ../login.php');
+    exit;
+}
+
+if (!isset($_GET['id'])) {
+    header('Location: index.php');
     exit;
 }
 
 $tree_id = intval($_GET['id']);
+$tree = get_tree_by_id($tree_id);
+
+if (!$tree) {
+    header('Location: index.php');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Archive QR codes instead of deleting
-    query("UPDATE qr_codes SET is_active = FALSE WHERE tree_id = $tree_id");
+    // Delete associated photos first
+    $photos = get_tree_photos($tree_id);
+    while ($photo = fetch_assoc($photos)) {
+        $photo_path = TREE_PHOTOS_DIR . $photo['photo_path'];
+        if (file_exists($photo_path)) {
+            unlink($photo_path);
+        }
+    }
+    query("DELETE FROM tree_photos WHERE tree_id = $tree_id");
     
-    // Then delete the tree
+    // Delete QR code if exists
+    $qr_path = QR_CODES_DIR . "tree_$tree_id.png";
+    if (file_exists($qr_path)) {
+        unlink($qr_path);
+    }
+    
+    // Delete tree record
     query("DELETE FROM trees WHERE tree_id = $tree_id");
     
-    $_SESSION['message'] = "Tree deleted successfully (QR codes archived)";
-    header('Location: ../index.php');
+    $_SESSION['message'] = "Tree deleted successfully!";
+    header('Location: index.php');
     exit;
 }
 

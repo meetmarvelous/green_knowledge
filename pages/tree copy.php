@@ -2,12 +2,6 @@
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/functions.php';
-
-
-
 if (!isset($_GET['id'])) {
   header('Location: list.php');
   exit;
@@ -20,6 +14,12 @@ $photos = get_tree_photos($tree_id);
 if (!$tree) {
   header('Location: list.php');
   exit;
+}
+
+// Generate QR code if not exists
+$qr_file = QR_CODES_DIR . "tree_$tree_id.png";
+if (!file_exists($qr_file)) {
+  generate_qr_code($tree_id);
 }
 
 $page_title = $tree['scientific_name'];
@@ -58,6 +58,12 @@ require_once '../includes/header.php';
 
             <h5>Location</h5>
             <p>Lat: <?= $tree['geotag_lat'] ?>, Lng: <?= $tree['geotag_lng'] ?></p>
+
+            <h5>QR Code</h5>
+            <img src="<?= BASE_URL . '/' . $qr_file ?>" alt="QR Code" class="img-thumbnail" style="width: 100px;">
+            <a href="<?= BASE_URL . '/' . $qr_file ?>" download class="btn btn-sm btn-outline-success ms-2">
+              <i class="fas fa-download me-1"></i> Download
+            </a>
           </div>
         </div>
 
@@ -87,7 +93,7 @@ require_once '../includes/header.php';
             <?php $active = true;
             while ($photo = fetch_assoc($photos)): ?>
               <div class="carousel-item <?= $active ? 'active' : '' ?>">
-                <img src="<?= BASE_URL ?>/assets/images/tree_photos/<?= $photo['photo_path'] ?>"
+                <img src="<?= BASE_URL . '/' . TREE_PHOTOS_DIR . $photo['photo_path'] ?>"
                   class="d-block w-100"
                   alt="<?= $tree['scientific_name'] ?>">
                 <?php if (!empty($photo['caption'])): ?>

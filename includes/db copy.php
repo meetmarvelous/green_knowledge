@@ -1,14 +1,12 @@
 <?php
 require_once 'config.php';
 
-// Database connection
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
-// Database helper functions
 function query($sql) {
     global $conn;
     return mysqli_query($conn, $sql);
@@ -25,15 +23,5 @@ function num_rows($result) {
 function escape_string($string) {
     global $conn;
     return mysqli_real_escape_string($conn, $string);
-}
-
-function insert_id() {
-    global $conn;
-    return mysqli_insert_id($conn);
-}
-
-function error() {
-    global $conn;
-    return mysqli_error($conn);
 }
 ?>

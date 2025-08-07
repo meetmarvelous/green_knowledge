@@ -1,84 +1,50 @@
-List the file structure as
-assets/css/style.css
+Im using xampp for now. it shows - You don't have permission to access this resource.
+Do not # Redirect to HTTPS if not already. and remove other unnecssary .htacess code for now. Give me two versions  (.htaccess - the one for xampp testing, and .htacces2 (the one I will use later)
 
 
-
-green_knowledge/
-├── assets/
-│   ├── css/
-│   │   ├── bootstrap.min.css
-│   │   └── styles.css
-│   ├── js/
-│   │   ├── bootstrap.bundle.min.js
-│   │   └── main.js
-│   └── images/
-│       ├── logos/
-│       ├── tree_photos/ (empty)
-│       └── qr_codes/ (empty)
-├── includes/
-│   ├── config.php
-│   ├── db.php
-│   ├── auth.php
-│   ├── header.php
-│   ├── footer.php
-│   ├── functions.php
-│   └── phpqrcode/
-│       └── qrlib.php
-├── admin/
-│   ├── dashboard.php
-│   ├── login.php
-│   ├── logout.php
-│   ├── trees/
-│   │   ├── index.php
-│   │   ├── add.php
-│   │   ├── edit.php
-│   │   └── delete.php
-│   ├── qr_generator.php
-│   └── export.php
-├── pages/
-│   ├── home.php
-│   ├── list.php
-│   ├── tree.php
-│   ├── search.php
-│   ├── about.php
-│   └── contact.php
-├── qr/
-│   └── generate.php
-├── index.php
-└── .htaccess
+The code is not loading the index since there is none, fix that , note that we have our homepag in the pages folder
 
 
+The search nav bar from a file in pages/ move to 
+http://localhost/Recent/Green//pages/pages/search.php?q=khaya when used , and the file cant be found , fix that too
+
+______________________________________________
+
+Nav bar toggle not working on mobile. Fix 
+
+Then let's move to the admin dashboard. There will be be a lot of restructuring. 
+
+QR code code generation is not working at all. Fix that, let's use proper debugging messages during this development to know where the problem is 
+
+Quick action buttons should be added to every admin dashboard page for easy navigation.
+
+Key note : The names of the generated QR images should be saved to database too for proper recording. I want each QR generated images  to be ever working because it will be printed on a flyer that will be shared to the masses, in the sense that even if another GQ code is being generated, the existing one will still work for that particular link. pls handle deleting and updating trees properly so there won't be mix up and affect the records later (e.g prevent mixing up the tree Id with their link id with that of their respective QR code) 
 
 
-assets/css/bootstrap.min.css
-assets/css/styles.css
-assets/js/bootstrap.bundle.min.js
-assets/js/main.js
-assets/images/logos/
-assets/images/tree_photos/
-assets/images/qr_codes/
-includes/config.php
-includes/db.php
-includes/auth.php
-includes/header.php
-includes/footer.php
-includes/functions.php
-includes/phpqrcode/qrlib.php
-admin/dashboard.php
-admin/login.php
-admin/logout.php
-admin/trees/index.php
-admin/trees/add.php
-admin/trees/edit.php
-admin/trees/delete.php
-admin/qr_generator.php
-admin/export.php
-pages/home.php
-pages/list.php
-pages/tree.php
-pages/search.php
-pages/about.php
-pages/contact.php
-qr/generate.php
-index.php
-.htaccess
+Now give me the new codes to add, the ones to update and the new database schema to add or update. 
+
+
+Let's create an admin page to manage Plant Families, includes/quick_actions.php for this.
+
+The tree images are not uploading and updating after trying to add from the manage tree section in admin dashboard. It didnt update to both database and folder. Fix that. Use proper feedback for debuging purposes.
+
+Give me the updated admin files like its index and others because of the updated features like family.php, and others.
+
+For the QR management page, The QR code picture was generated and it worked when I used it from the folder directly but whenever I download to my device using the download button. the png file wont open hence not able to scan. fix that too
+______________________________________________
+
+edit.php still not working for uploading pictures. didnt drop the pictures to database or folder. fix that and give me the full code (with proper feedback alert messages for key processes to know where issue is). check for that of  add.php too. Give the full code for both
+
+Also,
+because of .htacess file and other reasons , to check tree details from http://localhost/Recent/Green/ , it navigates to http://localhost/Recent/Green/tree.php?id=1 instead of http://localhost/Recent/Green/pages/tree.php?id=1 from some other pages and  http://localhost/Recent/Green/ (which I think is loading from pages/index.php normally). Fix that too
+
+it takes me back to admin/dashboard.php without executing the final upload, until I open the edit.php in admin/trees again then the previous edit get completed which isnt supposed to be
+and The pictures was uploaded to \Green\admin\trees\assets\images\tree_photos  instead of Green\assets\images\tree_photos
+
+Fix both 
+Tree updated successfully!
+
+
+Also note that the current tree pic path actually work for pages/trees.php and others, but not the admin, so lets fix properly.
+
+when I click update tree on edit.php, it takes me back to admin/index.php without executing the upload tasks, until I open the edit.php?id=(the numberid) again before it get completed, which isnt supposed to be. Fix 
