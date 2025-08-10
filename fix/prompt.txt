@@ -48,3 +48,28 @@ Tree updated successfully!
 Also note that the current tree pic path actually work for pages/trees.php and others, but not the admin, so lets fix properly.
 
 when I click update tree on edit.php, it takes me back to admin/index.php without executing the upload tasks, until I open the edit.php?id=(the numberid) again before it get completed, which isnt supposed to be. Fix 
+
+
+It tries to download from .....Green\assets\images\qr_codes instead of  ...Green\admin\assets\images\qr_codes
+lets fix that alone, which line wil I fix
+
+when I searched khaya from
+Froom
+http://localhost/Recent/Green/pages/list.php ( and other files in pages folder)
+http://localhost/Recent/Green/admin/dashboard.php ( and other files in admin folder) respectively
+it moved to
+http://localhost/Recent/Green/pages/pages/search.php?q=khaya
+http://localhost/Recent/Green/admin/pages/search.php?q=khaya respectively
+
+instead http://localhost/Recent/Green/pages/search.php?q=khaya
+
+lets fix, without effect other pages.
+
+
+
+Act like a world-class frontend developer.
+
+Lets create a PAGE BANNER with breadcrumb for all pages except the admin pages. 
+For the homepage, Let it be a slider without breadcrumb but action buttons.
+
+Use sample pictures I will replace later.

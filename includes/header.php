@@ -37,7 +37,7 @@ require_once __DIR__ . '/auth.php';  // This contains is_logged_in()
           <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/pages/about.php">About</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/pages/contact.php">Contact</a></li>
         </ul>
-        <form class="d-flex" action="pages/search.php" method="GET">
+        <form class="d-flex" action="<?= BASE_URL ?>/pages/search.php" method="GET">
           <input class="form-control me-2" type="search" name="q" placeholder="Search trees...">
           <button class="btn btn-light" type="submit">Search</button>
         </form>

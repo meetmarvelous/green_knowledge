@@ -4,170 +4,136 @@ require_once __DIR__ . '/../../includes/db.php';
 require_once __DIR__ . '/../../includes/functions.php';
 
 if (!is_logged_in()) {
-  header('Location: ' . BASE_URL . '/admin/login.php');
-  exit;
-}
-
-// Enable debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// 2. HANDLE FORM SUBMISSION (BEFORE ANY OUTPUT)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $tree_id = intval($_POST['tree_id'] ?? 0);
-  $redirect_url = BASE_URL . '/admin/trees/index.php';
-
-  try {
-    // Validate tree exists
-    if (!tree_exists($tree_id)) {
-      throw new Exception("Tree not found");
-    }
-
-    // A. Handle File Uploads First
-    $uploaded_files = [];
-    if (!empty($_FILES['photos']['name'][0])) {
-      error_log("[TREE EDIT] Processing file uploads for tree $tree_id");
-
-      // Ensure directory exists
-      if (!file_exists(TREE_PHOTOS_DIR)) {
-        if (!mkdir(TREE_PHOTOS_DIR, 0755, true)) {
-          throw new Exception("Could not create photos directory");
-        }
-      }
-
-      // Process each file
-      foreach ($_FILES['photos']['tmp_name'] as $index => $tmp_name) {
-        if ($_FILES['photos']['error'][$index] === UPLOAD_ERR_OK) {
-          // Validate file
-          $finfo = new finfo(FILEINFO_MIME_TYPE);
-          $mime = $finfo->file($tmp_name);
-          $allowed = ['image/jpeg', 'image/png', 'image/gif'];
-
-          if (!in_array($mime, $allowed)) {
-            throw new Exception("Invalid file type: " . $_FILES['photos']['name'][$index]);
-          }
-
-          // Generate unique filename
-          $ext = pathinfo($_FILES['photos']['name'][$index], PATHINFO_EXTENSION);
-          $filename = "tree_{$tree_id}_" . uniqid() . '.' . strtolower($ext);
-          $target_path = TREE_PHOTOS_DIR . $filename;
-
-          // Move file
-          if (!move_uploaded_file($tmp_name, $target_path)) {
-            throw new Exception("Failed to move uploaded file: " . $_FILES['photos']['name'][$index]);
-          }
-
-          $uploaded_files[] = [
-            'path' => $filename,
-            'caption' => $_POST['photo_captions'][$index] ?? ''
-          ];
-          error_log("[TREE EDIT] Uploaded file: $filename");
-        }
-      }
-    }
-
-    // B. Update Tree Data
-    $data = [
-      'scientific_name' => escape_string($_POST['scientific_name']),
-      'common_names' => escape_string($_POST['common_names'] ?? ''),
-      'family_id' => intval($_POST['family_id']),
-      'origin_distribution' => escape_string($_POST['origin_distribution'] ?? ''),
-      'physical_description' => escape_string($_POST['physical_description'] ?? ''),
-      'ecological_info' => escape_string($_POST['ecological_info'] ?? ''),
-      'conservation_status' => escape_string($_POST['conservation_status'] ?? 'Least Concern'),
-      'uses_economic' => escape_string($_POST['uses_economic'] ?? ''),
-      'geotag_lat' => floatval($_POST['geotag_lat'] ?? 0),
-      'geotag_lng' => floatval($_POST['geotag_lng'] ?? 0),
-      'tree_code' => escape_string($_POST['tree_code']),
-      'health_status' => escape_string($_POST['health_status'] ?? ''),
-      'remarks' => escape_string($_POST['remarks'] ?? '')
-    ];
-
-    $updates = [];
-    foreach ($data as $key => $value) {
-      $updates[] = "$key = '$value'";
-    }
-
-    $sql = "UPDATE trees SET " . implode(', ', $updates) . " WHERE tree_id = $tree_id";
-    if (!query($sql)) {
-      throw new Exception("Database update failed: " . error());
-    }
-
-    // C. Save Uploaded Files to Database
-    foreach ($uploaded_files as $file) {
-      $sql = "INSERT INTO tree_photos (tree_id, photo_path, caption) 
-                    VALUES ($tree_id, '" . escape_string($file['path']) . "', 
-                    '" . escape_string($file['caption']) . "')";
-      if (!query($sql)) {
-        throw new Exception("Failed to save photo record: " . error());
-      }
-    }
-
-    // D. Handle Photo Deletions
-    if (!empty($_POST['delete_photos'])) {
-      foreach ($_POST['delete_photos'] as $photo_id) {
-        $photo_id = intval($photo_id);
-        $photo = fetch_assoc(query("SELECT photo_path FROM tree_photos WHERE photo_id = $photo_id"));
-
-        if ($photo) {
-          $file_path = TREE_PHOTOS_DIR . $photo['photo_path'];
-          if (file_exists($file_path)) {
-            if (!unlink($file_path)) {
-              error_log("[TREE EDIT] Failed to delete file: $file_path");
-            }
-          }
-          query("DELETE FROM tree_photos WHERE photo_id = $photo_id");
-        }
-      }
-    }
-
-    // E. Set Primary Photo
-    if (!empty($_POST['primary_photo'])) {
-      $primary_id = intval($_POST['primary_photo']);
-      query("UPDATE tree_photos SET is_primary = 0 WHERE tree_id = $tree_id");
-      query("UPDATE tree_photos SET is_primary = 1 WHERE photo_id = $primary_id");
-    }
-
-    // SUCCESS - All operations completed
-    $_SESSION['message'] = "Tree updated successfully!";
-    $_SESSION['message_type'] = 'success';
-
-    // Ensure session is saved before redirect
-    session_write_close();
-
-    // Redirect using absolute URL
-    header("Location: $redirect_url");
+    header('Location: ' . BASE_URL . '/login.php');
     exit;
-  } catch (Exception $e) {
-    // Error handling
-    $_SESSION['message'] = "Error: " . $e->getMessage();
-    $_SESSION['message_type'] = 'danger';
-    error_log("[TREE EDIT ERROR] " . $e->getMessage());
-
-    // Stay on edit page to show errors
-    $tree_id = intval($_POST['tree_id']);
-  }
 }
 
-// 3. LOAD TREE DATA FOR DISPLAY
-if (!isset($tree_id) && isset($_GET['id'])) {
-  $tree_id = intval($_GET['id']);
-}
-
-if (!isset($tree_id) || !tree_exists($tree_id)) {
-  $_SESSION['message'] = "Tree not found";
-  $_SESSION['message_type'] = 'danger';
-  header('Location: ' . BASE_URL . '/admin/trees/index.php');
-  exit;
-}
-
+// 2. INITIALIZE VARIABLES
+$tree_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $tree = get_tree_by_id($tree_id);
 $photos = get_tree_photos($tree_id);
-$families = get_families();
 
-// 4. HTML OUTPUT
-$page_title = 'Edit Tree: ' . $tree['scientific_name'];
+if (!$tree) {
+    header('Location: index.php');
+    exit;
+}
+
+// 3. PROCESS FORM SUBMISSION FIRST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify tree ID matches
+    $post_tree_id = intval($_POST['tree_id'] ?? 0);
+    if ($post_tree_id !== $tree_id) {
+        die("Invalid tree ID");
+    }
+
+    try {
+        // 4. HANDLE FILE UPLOADS FIRST
+        $uploaded_files = [];
+        if (!empty($_FILES['photos']['name'][0])) {
+            if (!file_exists(TREE_PHOTOS_DIR)) {
+                mkdir(TREE_PHOTOS_DIR, 0755, true);
+            }
+
+            foreach ($_FILES['photos']['tmp_name'] as $index => $tmp_name) {
+                if ($_FILES['photos']['error'][$index] === UPLOAD_ERR_OK) {
+                    $ext = strtolower(pathinfo($_FILES['photos']['name'][$index], PATHINFO_EXTENSION));
+                    $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+                    
+                    if (!in_array($ext, $allowed)) {
+                        throw new Exception("Invalid file type");
+                    }
+
+                    $filename = "tree_{$tree_id}_" . uniqid() . '.' . $ext;
+                    $target_path = TREE_PHOTOS_DIR . $filename;
+
+                    if (!move_uploaded_file($tmp_name, $target_path)) {
+                        throw new Exception("Failed to upload file");
+                    }
+
+                    $uploaded_files[] = [
+                        'path' => $filename,
+                        'caption' => $_POST['photo_captions'][$index] ?? ''
+                    ];
+                }
+            }
+        }
+
+        // 5. UPDATE TREE DATA
+        $data = [
+          'scientific_name' => escape_string($_POST['scientific_name']),
+          'common_names' => escape_string($_POST['common_names'] ?? ''),
+          'family_id' => intval($_POST['family_id']),
+          'origin_distribution' => escape_string($_POST['origin_distribution'] ?? ''),
+          'physical_description' => escape_string($_POST['physical_description'] ?? ''),
+          'ecological_info' => escape_string($_POST['ecological_info'] ?? ''),
+          'conservation_status' => escape_string($_POST['conservation_status'] ?? 'Least Concern'),
+          'uses_economic' => escape_string($_POST['uses_economic'] ?? ''),
+          'geotag_lat' => floatval($_POST['geotag_lat'] ?? 0),
+          'geotag_lng' => floatval($_POST['geotag_lng'] ?? 0),
+          'tree_code' => escape_string($_POST['tree_code']),
+          'health_status' => escape_string($_POST['health_status'] ?? ''),
+          'remarks' => escape_string($_POST['remarks'] ?? '')
+        ];
+
+        $updates = [];
+        foreach ($data as $key => $value) {
+            $updates[] = "$key = '$value'";
+        }
+
+        $sql = "UPDATE trees SET " . implode(', ', $updates) . " WHERE tree_id = $tree_id";
+        if (!query($sql)) {
+            throw new Exception("Database update failed");
+        }
+
+        // 6. SAVE UPLOADED PHOTOS TO DATABASE
+        foreach ($uploaded_files as $file) {
+            $sql = "INSERT INTO tree_photos (tree_id, photo_path, caption) 
+                    VALUES ($tree_id, '" . escape_string($file['path']) . "', 
+                    '" . escape_string($file['caption']) . "')";
+            query($sql);
+        }
+
+        // 7. HANDLE PHOTO DELETIONS
+        if (!empty($_POST['delete_photos'])) {
+            foreach ($_POST['delete_photos'] as $photo_id) {
+                $photo_id = intval($photo_id);
+                $photo = fetch_assoc(query("SELECT photo_path FROM tree_photos WHERE photo_id = $photo_id"));
+                
+                if ($photo) {
+                    $file_path = TREE_PHOTOS_DIR . $photo['photo_path'];
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
+                    query("DELETE FROM tree_photos WHERE photo_id = $photo_id");
+                }
+            }
+        }
+
+        // 8. HANDLE PRIMARY PHOTO SELECTION
+        if (!empty($_POST['primary_photo'])) {
+            $primary_id = intval($_POST['primary_photo']);
+            query("UPDATE tree_photos SET is_primary = 0 WHERE tree_id = $tree_id");
+            query("UPDATE tree_photos SET is_primary = 1 WHERE photo_id = $primary_id");
+        }
+
+        // 9. SUCCESS - REDIRECT WITH MESSAGE
+        $_SESSION['message'] = "Tree updated successfully!";
+        $_SESSION['message_type'] = 'success';
+        
+        // Ensure no output before header
+        ob_end_clean();
+        header("Location: " . BASE_URL . "/admin/trees/index.php");
+        exit();
+
+    } catch (Exception $e) {
+        $_SESSION['message'] = "Error: " . $e->getMessage();
+        $_SESSION['message_type'] = 'danger';
+        error_log("TREE UPDATE ERROR: " . $e->getMessage());
+    }
+}
+
+// 10. RENDER THE FORM
+$page_title = 'Edit Tree';
 require_once __DIR__ . '/../../includes/header.php';
 require_once __DIR__ . '/../includes/quick_actions.php';
 ?>

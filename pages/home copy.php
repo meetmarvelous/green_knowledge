@@ -4,50 +4,7 @@ require_once '../includes/functions.php';
 
 $page_title = 'Home';
 require_once '../includes/header.php';
-?>
 
-
-<!-- Hero Slider -->
-<section class="hero-slider">
-    <!-- Slide 1 -->
-    <div class="slide active" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-1.jpg');">
-        <div class="slide-content">
-            <h1 class="hero-title">Discover Our Botanical Treasures</h1>
-            <p class="hero-subtitle">Explore over 160 tree species from 40 different plant families in our living collection</p>
-            <div class="hero-actions">
-                <a href="<?= BASE_URL ?>/pages/list.php" class="btn btn-hero btn-hero-primary">Browse Trees</a>
-                <a href="<?= BASE_URL ?>/pages/about.php" class="btn btn-hero btn-hero-secondary">Learn More</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 2 -->
-    <div class="slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-2.jpg');">
-        <div class="slide-content">
-            <h1 class="hero-title">Education Through Nature</h1>
-            <p class="hero-subtitle">Join our guided tours and learn about plant conservation and biodiversity</p>
-            <div class="hero-actions">
-                <a href="<?= BASE_URL ?>/pages/contact.php" class="btn btn-hero btn-hero-primary">Book a Tour</a>
-                <a href="<?= BASE_URL ?>/pages/about.php#education" class="btn btn-hero btn-hero-secondary">Education Programs</a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Slide 3 -->
-    <div class="slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-3.jpg');">
-        <div class="slide-content">
-            <h1 class="hero-title">QR Code Technology</h1>
-            <p class="hero-subtitle">Scan QR codes on our tree tags to access detailed information instantly</p>
-            <div class="hero-actions">
-                <a href="<?= BASE_URL ?>/pages/about.php#technology" class="btn btn-hero btn-hero-primary">How It Works</a>
-                <a href="<?= BASE_URL ?>/pages/list.php" class="btn btn-hero btn-hero-secondary">View Trees</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<?php 
 // Get latest trees
 $sql = "SELECT t.*, f.family_name 
         FROM trees t 
