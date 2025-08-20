@@ -169,6 +169,9 @@ $families = get_families();
 // 4. HTML OUTPUT
 $page_title = 'Edit Tree: ' . $tree['scientific_name'];
 require_once __DIR__ . '/../../includes/header.php';
+?>
+<div class="container mt-4">
+<?php 
 require_once __DIR__ . '/../includes/quick_actions.php';
 ?>
 

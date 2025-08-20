@@ -10,6 +10,9 @@ if (!is_logged_in()) {
 
 $page_title = 'Admin Dashboard';
 require_once __DIR__ . '/../includes/header.php';
+?>
+<div class="container mt-4">
+<?php 
 require_once __DIR__ . '/includes/quick_actions.php';
 
 // Get stats
@@ -63,9 +66,6 @@ $stats = [
     </div>
 
     <div class="card">
-        <div class="card-header bg-light">
-            <h5 class="mb-0">Quick Actions</h5>
-        </div>
         <div class="card-body">
             <?php require_once __DIR__ . '/includes/quick_actions.php'; ?>
         </div>

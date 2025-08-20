@@ -63,25 +63,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Hero Slider Functionality (for homepage)
 document.addEventListener('DOMContentLoaded', function() {
-  // Only run on homepage
-  if (document.querySelector('.hero-slider')) {
-      const slides = document.querySelectorAll('.slide');
-      let currentSlide = 0;
+  // Homepage slider, Only run on homepage
+  if (document.querySelector('.hero-slider-container')) {
+      const heroSlides = document.querySelectorAll('.hero-slide');
+      let currentHeroSlide = 0;
       
       // Initialize slider
-      function initSlider() {
-          if (slides.length > 0) {
-              slides[0].classList.add('active');
-              setInterval(nextSlide, 6000); // Change slide every 6 seconds
+      function initHeroSlider() {
+          if (heroSlides.length > 0) {
+              heroSlides[0].classList.add('active');
+              setInterval(nextHeroSlide, 6000); // Change slide every 6 seconds
           }
       }
       
-      function nextSlide() {
-          slides[currentSlide].classList.remove('active');
-          currentSlide = (currentSlide + 1) % slides.length;
-          slides[currentSlide].classList.add('active');
+      function nextHeroSlide() {
+          heroSlides[currentHeroSlide].classList.remove('active');
+          currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+          heroSlides[currentHeroSlide].classList.add('active');
       }
       
-      initSlider();
+      initHeroSlider();
   }
 });

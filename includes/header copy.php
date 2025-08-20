@@ -22,15 +22,12 @@ require_once __DIR__ . '/auth.php';  // This contains is_logged_in()
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container">
         <a class="navbar-brand" href="<?= BASE_URL ?>">
             <i class="fas fa-tree me-2"></i><?= SITE_NAME ?>
         </a>
-        <button class="navbar-toggler" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#mainNav" 
-                aria-controls="mainNav" aria-expanded="false" 
-                aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
@@ -56,3 +53,4 @@ require_once __DIR__ . '/auth.php';  // This contains is_logged_in()
         </div>
     </div>
 </nav>
+  <div class="container mt-4">

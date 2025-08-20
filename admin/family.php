@@ -10,6 +10,9 @@ if (!is_admin()) {
 
 $page_title = 'Plant Families Management';
 require_once __DIR__ . '/../includes/header.php';
+?>
+<div class="container mt-4">
+<?php 
 require_once __DIR__ . '/includes/quick_actions.php';
 
 // Handle form submissions

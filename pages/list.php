@@ -7,7 +7,23 @@ $order = $_GET['order'] ?? 'ASC';
 
 $page_title = 'Tree Directory';
 require_once '../includes/header.php';
+?>
 
+<!-- Page Banner -->
+<section class="page-banner" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/trees-banner.jpg');">
+    <div class="banner-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/pages/home.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tree Directory</li>
+            </ol>
+        </nav>
+        <h1 class="banner-title">Tree Directory</h1>
+    </div>
+</section>
+
+<div class="container mt-4">
+<?php 
 $trees = get_all_trees($sort, $order);
 ?>
 

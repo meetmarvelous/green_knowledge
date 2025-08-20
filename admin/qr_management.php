@@ -10,6 +10,9 @@ if (!is_logged_in()) {
 
 $page_title = 'QR Code Management';
 require_once __DIR__ . '/../includes/header.php';
+?>
+<div class="container mt-4">
+<?php 
 require_once __DIR__ . '/includes/quick_actions.php';
 
 // Handle QR Generation

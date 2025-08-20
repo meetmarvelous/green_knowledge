@@ -65,7 +65,7 @@ instead http://localhost/Recent/Green/pages/search.php?q=khaya
 
 lets fix, without effect other pages.
 
-
+______________________________________________
 
 Act like a world-class frontend developer.
 
@@ -73,3 +73,13 @@ Lets create a PAGE BANNER with breadcrumb for all pages except the admin pages.
 For the homepage, Let it be a slider without breadcrumb but action buttons.
 
 Use sample pictures I will replace later.
+
+
+For devices with nav bar toggler, How do I make it appear over the slider or banner when clicked instead of pushing it down
+
+______________________________________________
+?>
+
+
+<div class="container mt-4">
+<?php 

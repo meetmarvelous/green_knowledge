@@ -6,12 +6,11 @@ $page_title = 'Home';
 require_once '../includes/header.php';
 ?>
 
-
 <!-- Hero Slider -->
-<section class="hero-slider">
+<section class="hero-slider-container">
     <!-- Slide 1 -->
-    <div class="slide active" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-1.jpg');">
-        <div class="slide-content">
+    <div class="hero-slide active" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-1.jpg');">
+        <div class="hero-slide-content">
             <h1 class="hero-title">Discover Our Botanical Treasures</h1>
             <p class="hero-subtitle">Explore over 160 tree species from 40 different plant families in our living collection</p>
             <div class="hero-actions">
@@ -22,8 +21,8 @@ require_once '../includes/header.php';
     </div>
     
     <!-- Slide 2 -->
-    <div class="slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-2.jpg');">
-        <div class="slide-content">
+    <div class="hero-slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-2.jpg');">
+        <div class="hero-slide-content">
             <h1 class="hero-title">Education Through Nature</h1>
             <p class="hero-subtitle">Join our guided tours and learn about plant conservation and biodiversity</p>
             <div class="hero-actions">
@@ -34,8 +33,8 @@ require_once '../includes/header.php';
     </div>
     
     <!-- Slide 3 -->
-    <div class="slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-3.jpg');">
-        <div class="slide-content">
+    <div class="hero-slide" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/hero-3.jpg');">
+        <div class="hero-slide-content">
             <h1 class="hero-title">QR Code Technology</h1>
             <p class="hero-subtitle">Scan QR codes on our tree tags to access detailed information instantly</p>
             <div class="hero-actions">
@@ -46,7 +45,7 @@ require_once '../includes/header.php';
     </div>
 </section>
 
-
+<div class="container mt-4">
 <?php 
 // Get latest trees
 $sql = "SELECT t.*, f.family_name 

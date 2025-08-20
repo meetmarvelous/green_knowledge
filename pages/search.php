@@ -8,7 +8,9 @@ $conservation_filter = $_GET['conservation'] ?? '';
 
 $page_title = 'Search Results';
 require_once '../includes/header.php';
-
+?>
+<div class="container mt-4">
+<?php 
 $results = search_trees($query, $family_filter, $conservation_filter);
 $families = get_families();
 ?>

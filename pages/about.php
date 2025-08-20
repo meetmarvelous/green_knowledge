@@ -6,6 +6,20 @@ $page_title = 'About';
 require_once '../includes/header.php';
 ?>
 
+<!-- Page Banner -->
+<section class="page-banner" style="background-image: url('<?= BASE_URL ?>/assets/images/banners/about.jpg');">
+    <div class="banner-content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>/pages/home.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">About Page</li>
+            </ol>
+        </nav>
+        <h1 class="banner-title">About Page</h1>
+    </div>
+</section>
+
+<div class="container mt-4">
 <div class="card mb-4">
     <div class="card-body">
         <h1 class="mb-4">About GREEN KNOWLEDGE</h1>

@@ -10,6 +10,9 @@ if (!is_logged_in()) {
 
 $page_title = 'Manage Trees';
 require_once '../../includes/header.php';
+?>
+<div class="container mt-4">
+<?php 
 
 $trees = get_all_trees();
 ?>

@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $page_title = 'Delete Tree';
 require_once '../../includes/header.php';
 ?>
+<div class="container mt-4">
 
 <div class="card">
     <div class="card-header bg-danger text-white">
