@@ -24,7 +24,7 @@ Build a streamlined web application called "GREEN KNOWLEDGE" for the University 
 4. **Admin Dashboard**
    - Secure login system
    - Full CRUD operations for tree records.
-   - Making it possible to add new tree details (table data) for all trees and delete any existing one for all trees
+   - Making it possible to add new tree details (table data) for all trees and delete any existing one for all trees.
    - QR code generation with download options (PNG)
    - Data export functionality
 

@@ -1,3 +1,48 @@
+Improve this prompt below from the details above,add details that aren't added to the prompt already concise and well detailed:
+
+Build a Web Application for details above
+Overview: (give me concisely)
+
+
+Key Features:
+
+A main webpage that gives where all trees are listed by family, tree species. (with search functionality at the nav bar)
+A tree details page for each tree showing all details of the tree.
+A search page to search for any details of any tree from the database.
+An admin dashboard to manage the website for CRUD operations, and can export the QR code picture for each tree link
+and other pages .
+
+Database Design:
+The application uses a MySQL database, add every other necessary features and tables.
+
+Frontend Design:
+Built with Bootstrap 5 for responsive, modern styling, and User-friendly.
+
+Admin Dashboard :
+Create, read, edit, delete all trees details from the database.
+Making it possible to add new tree details (table data) for all trees and delete any existing one for all trees
+Be able to create QR code pictures that will never expire that link to the web page of each tree page.
+
+Technology Stack:
+Backend: PHP (Procedural), MySQL (MySQLi Procedural).
+Frontend: HTML, CSS, Bootstrap 5, JavaScript (optional for enhanced interactivity).
+Development Tools: XAMPP or any local server setup for testing.
+QR Code generation integration.
+
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=green_knowledge
+
+Instructions for Building the Application:
+Create other necessary files
+Give me the file structure first, then give me the file codes
+______________________________________________
+
+______________________________________________
+
+
 Im using xampp for now. it shows - You don't have permission to access this resource.
 Do not # Redirect to HTTPS if not already. and remove other unnecssary .htacess code for now. Give me two versions  (.htaccess - the one for xampp testing, and .htacces2 (the one I will use later)
 
