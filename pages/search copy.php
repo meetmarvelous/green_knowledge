@@ -55,13 +55,12 @@ require_once '../includes/header.php';
   <?php if (num_rows($results) > 0): ?>
     <div class="list-group">
       <?php while ($tree = fetch_assoc($results)): ?>
-        <!-- Update the search results display -->
         <a href="tree.php?id=<?= $tree['tree_id'] ?>" class="list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1"><?= $tree['scientific_name'] ?></h5>
             <small><?= $tree['tree_code'] ?></small>
           </div>
-          <p class="mb-1"><?= $tree['common_name'] ?> • <?= $tree['family_name'] ?></p>
+          <p class="mb-1"><?= $tree['family_name'] ?></p>
           <small class="text-muted"><?= $tree['conservation_status'] ?></small>
         </a>
       <?php endwhile; ?>

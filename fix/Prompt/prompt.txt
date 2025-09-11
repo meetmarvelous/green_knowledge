@@ -128,3 +128,81 @@ ______________________________________________
 
 <div class="container mt-4">
 <?php 
+
+
+
+
+Update the table structure in a way that it will be able to take those data correctly.
+I will give you the data in csv format,, insert them into the restructed SQL table. Then provide the new SQL with the given data. 
+
+
+Csv:
+COMMON NAME,SCIENTIFIC NAME,FAMILY NAME,DESCRIPTION,ECOLOGICAL ROLE/INFORMATION,CONSERVATION STATUS,USES/IMPORTANCE,ORIGIN AND DISTRIBUTION,GPS COORDINATES,PICTURES
+Ear Pod Tree,Enterolobium cyclocarpum (Jacq.) Griseb.,Fabaceae,"A Large deciduous tree that can reach 20�30 meters in height with a thick trunk which is often buttressed at the base; bark grey to light brown, rough with fissures.
+Leaves are bipinnately compound, with small leaflets that close at night or during drought.
+Produces distinctive, large, dark brown, ear-shaped pods (up to 12 cm wide) containing several glossy brown seeds.
+Canopy is broad and spreading, providing extensive shade. The ear-shaped pods give this tree its most recognizable feature and are often a point of attraction for visitors.
+Its dense canopy makes it one of the most effective shade trees in the garden, especially in picnic or rest areas.
+Flowers attract bees and other pollinators. Pods may be eaten by wildlife such as monkeys and livestock, aiding seed dispersal.
+Often planted alongside other ornamental species like Delonix regia and Cassia fistula in managed landscapes.
+
+","Thrives in well-drained soils, tolerates a variety of soil types including sandy and clay soils.
+Adapted to both wet and dry tropical climates.
+Nitrogen-fixing species, improving soil fertility.
+Flowering occurs between December and March; fruits mature between April and June in Nigeria.
+",Listed as Least Concern on the IUCN Red List.,"Ornamental and shade tree in parks, gardens, and avenues.
+Timber is moderately heavy and used for furniture, carpentry, and light construction.
+Pods are sometimes used as livestock fodder in other countries (high in carbohydrates).
+Seeds have been used in traditional crafts and jewelry.
+Plays a role in soil enrichment through nitrogen fixation.
+","Native to tropical regions of Central and South America, particularly Mexico, Costa Rica, and Venezuela.
+Widely introduced and naturalised in tropical Africa, including Nigeria, for ornamental and shade purposes.
+",,
+"White afara, Limba",Terminalia superba Engl. & Diels,Combretaceae,"A tall deciduous tree reaching 30�45 meters in height.
+Straight, cylindrical bole often branchless up to 20 meters. The Bark is smooth to slightly fissured, greyish-brown in color.
+Leaves are simple, arranged in whorls near branch tips, elliptical in shape.
+Flowers are small, creamy-white, and borne in slender spikes. Fruits are winged, resembling a small propeller.
+Supports insects like butterflies and bees during flowering.
+Sometimes found in association with Khaya spp., Triplochiton scleroxylon, and Nauclea diderrichii in mixed tropical forests.
+Often mistaken for Triplochiton scleroxylon due to similar growth form.
+Its light-colored wood and rapid growth make it a preferred species in sustainable timber farming and forest plantation trials.
+","Prefers well-drained, deep loamy soils.
+Grows best in humid lowland forests with full sunlight.
+Tolerates secondary forest conditions.
+Flowers around February to April and fruits between May and July.
+Provides shade and helps reduce soil erosion.
+","Listed as Least Concern on the IUCN Red List.
+However, locally threatened in areas due to overexploitation for timber.
+","Highly valued for timber�lightweight and easy to work with.
+Used in furniture, veneer, plywood, and interior finishing.
+Bark is used in traditional medicine for treating cough and infections.
+Culturally significant in some communities as a symbol of prestige.
+Often planted for reforestation and ornamental purposes.
+","Native to West and Central Africa.
+Found in tropical rainforests across Nigeria, Ghana, Cameroon, and Congo.
+Commonly cultivated in forest reserves and botanical gardens in Nigeria.
+",,
+Royal Palm ,Roystonea regia (Kunth) O.F.Cook,Arecaceae (Palm family),"Tall, solitary palm reaching 20�30 meters in height.
+Smooth, light gray to whitish trunk, swollen at the base and tapering upward.
+A distinct green crownshaft (smooth, waxy stem section below the leaves) tops the trunk. Crown consists of 15�20 long, pinnate fronds, each up to 4�6 meters long.
+Inflorescences emerge below the crownshaft, bearing small, creamy-white flowers. Fruits are oval, purplish-black when mature, about 1�2 cm in diameter and provide food for birds such as pigeons and doves, aiding seed dispersal.
+The Flowers attract bees and other pollinators.
+Often planted alongside other ornamental species like Delonix regia and Cassia fistula in managed gardens.
+One of the most visually striking palms in the Botanical Garden, often used as a landmark or focal point in photographs.
+Its towering height and symmetrical crown make it a symbol of tropical elegance.
+"," Prefers full sunlight and well-drained soils; tolerates a range of soil types from sandy to loamy.
+Thrives in humid tropical climates but is also drought-tolerant once established.
+Flowering can occur year-round in Nigeria, but peak fruiting is often during the dry season.
+Provides perching and feeding sites for birds and bats.
+","Listed as Least Concern on the IUCN Red List.
+Widely cultivated and not threatened globally.
+","Highly valued as an ornamental tree for landscaping in gardens, avenues, and institutional grounds.
+Trunk sometimes used in rural areas for construction (in its native range).
+Fruits are eaten by birds and sometimes livestock.
+Cultural symbol in Cuba and parts of the Caribbean.
+","Native to southern Florida, the Caribbean (especially Cuba), and parts of Central America.
+Widely cultivated in tropical and subtropical regions worldwide as an ornamental palm, including Nigeria.
+ ",,
+
+
+After that, lets edit necessary files like tree.php , admin/trees/edit.php, admin/trees/add.php and every other necessaryfile to edit

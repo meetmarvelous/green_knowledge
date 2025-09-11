@@ -47,13 +47,20 @@ require_once '../includes/header.php';
         <div class="card-header bg-success text-white">
           <h2 class="mb-0"><?= $tree['scientific_name'] ?></h2>
           <div class="d-flex justify-content-between">
-            <span><?= $tree['common_names'] ?></span>
+            <span><?= $tree['common_name'] ?></span>
             <span><?= $tree['tree_code'] ?></span>
           </div>
         </div>
+
+
+
+        <!-- Update the tree details section -->
         <div class="card-body">
           <div class="row mb-4">
             <div class="col-md-6">
+              <h5>Common Name</h5>
+              <p><?= $tree['common_name'] ?></p>
+
               <h5>Family</h5>
               <p><?= $tree['family_name'] ?></p>
 
@@ -68,26 +75,27 @@ require_once '../includes/header.php';
               </p>
             </div>
             <div class="col-md-6">
-              <h5>Health Status</h5>
-              <p><?= $tree['health_status'] ?></p>
+              <h5>Tree Code</h5>
+              <p><?= $tree['tree_code'] ?></p>
 
-              <h5>Location</h5>
-              <p>Lat: <?= $tree['geotag_lat'] ?>, Lng: <?= $tree['geotag_lng'] ?></p>
+              <?php if (!empty($tree['gps_coordinates'])): ?>
+                <h5>GPS Coordinates</h5>
+                <p><?= $tree['gps_coordinates'] ?></p>
+              <?php endif; ?>
             </div>
           </div>
 
-          <h4>Physical Description</h4>
-          <p><?= $tree['physical_description'] ?></p>
+          <h4>Description</h4>
+          <p><?= $tree['description'] ?></p>
 
           <h4>Ecological Information</h4>
           <p><?= $tree['ecological_info'] ?></p>
 
-          <h4>Uses & Economic Value</h4>
-          <p><?= $tree['uses_economic'] ?></p>
-
-          <h4>Remarks</h4>
-          <p><?= $tree['remarks'] ?></p>
+          <h4>Uses & Importance</h4>
+          <p><?= $tree['uses_importance'] ?></p>
         </div>
+
+
       </div>
     </div>
 

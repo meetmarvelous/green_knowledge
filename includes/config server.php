@@ -1,9 +1,9 @@
 <?php
 // Database configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'ayo_green');
+define('DB_HOST', 'sql201.iceiy.com');
+define('DB_USER', 'icei_39665027');
+define('DB_PASS', 'Mahvellous1698');
+define('DB_NAME', 'icei_39665027_green');
 
 // App configuration - Use absolute paths for file operations
 define('BASE_URL', 'http://localhost/Recent/Green');
@@ -14,10 +14,6 @@ define('ADMIN_EMAIL', 'admin@botanicalgarden.ui.edu.ng');
 define('ROOT_PATH', __DIR__ . '/../'); // Points to Green/ directory
 define('TREE_PHOTOS_DIR', ROOT_PATH . 'assets/images/tree_photos/');
 define('QR_CODES_DIR', ROOT_PATH . 'assets/images/qr_codes/');
-
-// Relative URL paths for web access (NEW - ADD THESE)
-define('TREE_PHOTOS_URL', 'assets/images/tree_photos/');
-define('QR_CODES_URL', 'assets/images/qr_codes/');
 
 // Ensure directories exist
 if (!file_exists(TREE_PHOTOS_DIR)) {

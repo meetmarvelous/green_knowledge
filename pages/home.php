@@ -82,7 +82,7 @@ $result = query($sql);
         <div class="card-body">
           <h5 class="card-title"><?= $tree['scientific_name'] ?></h5>
           <h6 class="card-subtitle mb-2 text-muted"><?= $tree['family_name'] ?></h6>
-          <p class="card-text"><?= substr($tree['physical_description'], 0, 100) ?>...</p>
+          <p class="card-text"><?= substr($tree['description'], 0, 100) ?>...</p>
           <a href="tree.php?id=<?= $tree['tree_id'] ?>" class="btn btn-sm btn-outline-success">
             View Details
           </a>
