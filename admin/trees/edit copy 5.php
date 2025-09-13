@@ -8,12 +8,26 @@ if (!is_logged_in()) {
     exit;
 }
 
-$page_title = 'Add New Tree';
+if (!isset($_GET['id'])) {
+    header('Location: index.php');
+    exit;
+}
+
+$tree_id = intval($_GET['id']);
+$tree = get_tree_by_id($tree_id);
+$photos = get_tree_photos($tree_id);
+
+if (!$tree) {
+    header('Location: index.php');
+    exit;
+}
+
+$page_title = 'Edit Tree';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <div class="container mt-4">
 <?php 
-// require_once __DIR__ . '/../includes/quick_actions.php';
+require_once __DIR__ . '/../includes/quick_actions.php';
 
 // Enable debugging
 error_reporting(E_ALL);
@@ -21,7 +35,7 @@ ini_set('display_errors', 1);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        error_log("ADD TREE POST DATA: " . print_r($_POST, true));
+        error_log("EDIT TREE POST DATA: " . print_r($_POST, true));
         error_log("FILES DATA: " . print_r($_FILES, true));
 
         // A. Validate required fields
@@ -47,24 +61,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'tree_code' => escape_string($_POST['tree_code'])
         ];
 
-        // Insert tree
-        $columns = implode(', ', array_keys($data));
-        $values = "'" . implode("', '", array_values($data)) . "'";
-        $sql = "INSERT INTO trees ($columns) VALUES ($values)";
+        // Update tree
+        $updates = [];
+        foreach ($data as $key => $value) {
+            $updates[] = "$key = '$value'";
+        }
+        $sql = "UPDATE trees SET " . implode(', ', $updates) . " WHERE tree_id = $tree_id";
 
-        error_log("SQL QUERY: $sql");
+        error_log("UPDATE SQL: $sql");
         if (!query($sql)) {
             throw new Exception("Database error: " . error());
         }
 
-        $tree_id = insert_id();
-        error_log("NEW TREE ID: $tree_id");
-
-        // C. Handle photo uploads (for tree_photos table)
+        // C. Handle new photo uploads
         if (!empty($_FILES['photos']['name'][0])) {
-            error_log("PHOTOS UPLOAD ATTEMPTED");
+            error_log("NEW PHOTOS UPLOAD ATTEMPTED");
             
-            // Ensure upload directory exists
             if (!file_exists(TREE_PHOTOS_DIR)) {
                 error_log("CREATING PHOTO DIRECTORY: " . TREE_PHOTOS_DIR);
                 if (!mkdir(TREE_PHOTOS_DIR, 0755, true)) {
@@ -73,11 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $photo_count = count($_FILES['photos']['name']);
-            error_log("PHOTO COUNT: $photo_count");
+            error_log("NEW PHOTO COUNT: $photo_count");
 
             for ($i = 0; $i < $photo_count; $i++) {
                 if ($_FILES['photos']['error'][$i] === UPLOAD_ERR_OK) {
-                    error_log("PROCESSING PHOTO $i");
+                    error_log("PROCESSING NEW PHOTO $i");
 
                     // Validate image
                     $check = getimagesize($_FILES['photos']['tmp_name'][$i]);
@@ -101,9 +113,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         throw new Exception("Failed to move uploaded file");
                     }
 
-                    // Insert into tree_photos database
+                    // Insert into database
                     $caption = escape_string($_POST['photo_captions'][$i] ?? '');
-                    $is_primary = ($i === 0) ? 1 : 0;
+                    $is_primary = 0; // New photos are not primary by default
                     $photo_sql = "INSERT INTO tree_photos (tree_id, photo_path, caption, is_primary) 
                                  VALUES ($tree_id, '$filename', '$caption', $is_primary)";
                     
@@ -112,25 +124,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         throw new Exception("Failed to save photo to database: " . error());
                     }
 
-                    error_log("PHOTO $i UPLOADED SUCCESSFULLY");
+                    error_log("NEW PHOTO $i UPLOADED SUCCESSFULLY");
                 } else {
-                    error_log("PHOTO $i UPLOAD ERROR: " . $_FILES['photos']['error'][$i]);
+                    error_log("NEW PHOTO $i UPLOAD ERROR: " . $_FILES['photos']['error'][$i]);
                 }
             }
-        } else {
-            error_log("NO PHOTOS UPLOADED");
         }
 
-        $_SESSION['message'] = "Tree added successfully with " . $photo_count . " photos!";
+        // Handle primary photo selection
+        if (!empty($_POST['primary_photo'])) {
+            $primary_id = intval($_POST['primary_photo']);
+            error_log("SETTING PRIMARY PHOTO: $primary_id");
+            
+            // Reset all to non-primary first
+            query("UPDATE tree_photos SET is_primary = 0 WHERE tree_id = $tree_id");
+            
+            // Set selected as primary
+            query("UPDATE tree_photos SET is_primary = 1 WHERE photo_id = $primary_id AND tree_id = $tree_id");
+        }
+
+        // Handle photo deletions
+        if (!empty($_POST['delete_photos'])) {
+            foreach ($_POST['delete_photos'] as $photo_id) {
+                $photo_id = intval($photo_id);
+                error_log("DELETING PHOTO ID: $photo_id");
+                
+                $photo = fetch_assoc(query("SELECT photo_path FROM tree_photos WHERE photo_id = $photo_id"));
+                if ($photo) {
+                    // Delete file
+                    $file_path = TREE_PHOTOS_DIR . $photo['photo_path'];
+                    if (file_exists($file_path)) {
+                        unlink($file_path);
+                    }
+                    // Delete record
+                    query("DELETE FROM tree_photos WHERE photo_id = $photo_id");
+                }
+            }
+        }
+
+        $_SESSION['message'] = "Tree updated successfully!";
         $_SESSION['message_type'] = 'success';
-        error_log("TREE ADDED SUCCESSFULLY");
+        error_log("TREE UPDATED SUCCESSFULLY");
         
         session_write_close();
         header("Location: index.php");
         exit;
 
     } catch (Exception $e) {
-        error_log("ADD TREE ERROR: " . $e->getMessage());
+        error_log("EDIT TREE ERROR: " . $e->getMessage());
         $_SESSION['message'] = $e->getMessage();
         $_SESSION['message_type'] = 'danger';
     }
@@ -147,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h2 class="mb-0">Add New Tree</h2>
+            <h2 class="mb-0">Edit Tree: <?= $tree['scientific_name'] ?></h2>
         </div>
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data">
@@ -155,12 +196,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="scientific_name" class="form-label">Scientific Name *</label>
-                            <input type="text" class="form-control" id="scientific_name" name="scientific_name" required>
+                            <input type="text" class="form-control" id="scientific_name" name="scientific_name" 
+                                   value="<?= htmlspecialchars($tree['scientific_name']) ?>" required>
                         </div>
                         
                         <div class="mb-3">
                             <label for="common_name" class="form-label">Common Name</label>
-                            <input type="text" class="form-control" id="common_name" name="common_name">
+                            <input type="text" class="form-control" id="common_name" name="common_name" 
+                                   value="<?= htmlspecialchars($tree['common_name']) ?>">
                         </div>
                         
                         <div class="mb-3">
@@ -171,24 +214,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $families = get_families();
                                 while ($family = fetch_assoc($families)): 
                                 ?>
-                                    <option value="<?= $family['family_id'] ?>"><?= $family['family_name'] ?></option>
+                                    <option value="<?= $family['family_id'] ?>" <?= $tree['family_id'] == $family['family_id'] ? 'selected' : '' ?>>
+                                        <?= $family['family_name'] ?>
+                                    </option>
                                 <?php endwhile; ?>
                             </select>
                         </div>
                         
                         <div class="mb-3">
                             <label for="tree_code" class="form-label">Tree Code *</label>
-                            <input type="text" class="form-control" id="tree_code" name="tree_code" required>
-                            <small class="text-muted">Format: UI-BG-TS-XXX</small>
+                            <input type="text" class="form-control" id="tree_code" name="tree_code" 
+                                   value="<?= htmlspecialchars($tree['tree_code']) ?>" required>
                         </div>
                         
                         <div class="mb-3">
                             <label for="conservation_status" class="form-label">Conservation Status</label>
                             <select class="form-select" id="conservation_status" name="conservation_status">
-                                <option value="Least Concern">Least Concern</option>
-                                <option value="Vulnerable">Vulnerable</option>
-                                <option value="Endangered">Endangered</option>
-                                <option value="Critically Endangered">Critically Endangered</option>
+                                <option value="Least Concern" <?= $tree['conservation_status'] == 'Least Concern' ? 'selected' : '' ?>>Least Concern</option>
+                                <option value="Vulnerable" <?= $tree['conservation_status'] == 'Vulnerable' ? 'selected' : '' ?>>Vulnerable</option>
+                                <option value="Endangered" <?= $tree['conservation_status'] == 'Endangered' ? 'selected' : '' ?>>Endangered</option>
+                                <option value="Critically Endangered" <?= $tree['conservation_status'] == 'Critically Endangered' ? 'selected' : '' ?>>Critically Endangered</option>
                             </select>
                         </div>
                     </div>
@@ -197,20 +242,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="mb-3">
                             <label for="gps_coordinates" class="form-label">GPS Coordinates</label>
                             <input type="text" class="form-control" id="gps_coordinates" name="gps_coordinates" 
+                                   value="<?= htmlspecialchars($tree['gps_coordinates']) ?>"
                                    placeholder="Format: 7.4456, 3.8945">
                         </div>
                         
                         <div class="mb-3">
                             <label for="qr_code_path" class="form-label">QR Code Path</label>
                             <input type="text" class="form-control" id="qr_code_path" name="qr_code_path" 
+                                   value="<?= htmlspecialchars($tree['qr_code_path']) ?>"
                                    placeholder="e.g., assets/images/qr_codes/tree_1.png">
                             <small class="text-muted">Auto-generated when QR codes are created</small>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="photos" class="form-label">Tree Photos</label>
+                            <label for="photos" class="form-label">Additional Photos</label>
                             <input type="file" class="form-control" id="photos" name="photos[]" multiple accept="image/*">
-                            <small class="text-muted">Upload multiple photos (first will be primary)</small>
+                            <small class="text-muted">Upload additional photos</small>
                             <div id="photo-preview-container" class="row mt-2"></div>
                         </div>
                     </div>
@@ -218,27 +265,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="4"><?= htmlspecialchars($tree['description']) ?></textarea>
                 </div>
                 
                 <div class="mb-3">
                     <label for="ecological_info" class="form-label">Ecological Information</label>
-                    <textarea class="form-control" id="ecological_info" name="ecological_info" rows="3"></textarea>
+                    <textarea class="form-control" id="ecological_info" name="ecological_info" rows="3"><?= htmlspecialchars($tree['ecological_info']) ?></textarea>
                 </div>
                 
                 <div class="mb-3">
                     <label for="uses_importance" class="form-label">Uses & Importance</label>
-                    <textarea class="form-control" id="uses_importance" name="uses_importance" rows="3"></textarea>
+                    <textarea class="form-control" id="uses_importance" name="uses_importance" rows="3"><?= htmlspecialchars($tree['uses_importance']) ?></textarea>
                 </div>
                 
                 <div class="mb-3">
                     <label for="origin_distribution" class="form-label">Origin & Distribution</label>
-                    <textarea class="form-control" id="origin_distribution" name="origin_distribution" rows="2"></textarea>
+                    <textarea class="form-control" id="origin_distribution" name="origin_distribution" rows="2"><?= htmlspecialchars($tree['origin_distribution']) ?></textarea>
+                </div>
+                
+                <!-- Current Photos Section -->
+                <div class="mb-3">
+                    <label class="form-label">Current Photos</label>
+                    <div class="row">
+                        <?php while ($photo = fetch_assoc($photos)): ?>
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <img src="<?= BASE_URL . '/' . TREE_PHOTOS_URL . $photo['photo_path'] ?>" 
+                                         class="card-img-top" style="height: 150px; object-fit: cover;">
+                                    <div class="card-body p-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="primary_photo" 
+                                                   value="<?= $photo['photo_id'] ?>" <?= $photo['is_primary'] ? 'checked' : '' ?>>
+                                            <label class="form-check-label">Primary</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="delete_photos[]" 
+                                                   value="<?= $photo['photo_id'] ?>">
+                                            <label class="form-check-label text-danger">Delete</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
                 </div>
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a href="index.php" class="btn btn-secondary me-md-2">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save Tree</button>
+                    <button type="submit" class="btn btn-primary">Update Tree</button>
                 </div>
             </form>
         </div>

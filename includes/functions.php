@@ -61,7 +61,7 @@ function search_trees($query, $family_filter = '', $conservation_filter = '')
             FROM trees t 
             JOIN families f ON t.family_id = f.family_id 
             WHERE (t.scientific_name LIKE '%$query%' 
-                   OR t.common_names LIKE '%$query%' 
+                   OR t.common_name LIKE '%$query%' 
                    OR f.family_name LIKE '%$query%' 
                    OR t.tree_code LIKE '%$query%')";
 

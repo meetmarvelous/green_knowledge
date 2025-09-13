@@ -1,0 +1,2 @@
+let all tree pics use the sample tree picture - tree.png in tree photos folder as img placeholder where we have tre picture instead of null from that database 
+Give me the lines to edit in necessary pages only

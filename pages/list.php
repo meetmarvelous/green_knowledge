@@ -53,7 +53,7 @@ $trees = get_all_trees($sort, $order);
         $photos = get_tree_photos($tree['tree_id']);
         $first_photo = fetch_assoc($photos);
         ?>
-        <img src="<?= BASE_URL ?>/assets/images/tree_photos/<?= $first_photo['photo_path'] ?? 'default.jpg' ?>"
+        <img src="<?= BASE_URL . '/' . TREE_PHOTOS_URL . ($first_photo['photo_path'] ?? 'tree.png') ?>" 
           class="card-img-top"
           alt="<?= $tree['scientific_name'] ?>"
           style="height: 200px; object-fit: cover;">

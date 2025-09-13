@@ -5,13 +5,13 @@
     <a href="trees/index.php" class="btn btn-primary me-md-2">
         <i class="fas fa-tree me-1"></i> Manage Trees
     </a>
-    <a href="qr_generator.php" class="btn btn-info me-md-2">
+    <!-- <a href="qr_generator.php" class="btn btn-info me-md-2">
         <i class="fas fa-qrcode me-1"></i> Generate QR Codes
-    </a>
+    </a> -->
     <a href="qr_management.php" class="btn btn-info me-md-2">
         <i class="fas fa-qrcode me-1"></i> Manage QR Codes
     </a>
-    <a href="export.php" class="btn btn-secondary">
+    <!-- <a href="export.php" class="btn btn-secondary">
         <i class="fas fa-download me-1"></i> Export Data
-    </a>
+    </a> -->
 </div>

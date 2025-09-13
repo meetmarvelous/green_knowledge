@@ -1,1 +1,0 @@
-ALTER TABLE trees ADD COLUMN approved BOOLEAN DEFAULT TRUE AFTER health_status;

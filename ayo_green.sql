@@ -1,11 +1,31 @@
-
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Sep 11, 2025 at 11:36 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `ayo_green`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact_messages`
+--
 
 CREATE TABLE `contact_messages` (
   `message_id` int(11) NOT NULL,
@@ -40,7 +60,8 @@ INSERT INTO `families` (`family_id`, `family_name`, `family_description`, `creat
 (2, 'Moraceae', 'The mulberry family including figs and breadfruit', '2025-08-23 18:14:46', '2025-08-23 18:14:46'),
 (3, 'Arecaceae', 'The palm family with over 2,500 species', '2025-08-23 18:14:46', '2025-08-23 18:14:46'),
 (4, 'Rutaceae', 'The rue or citrus family including oranges and lemons', '2025-08-23 18:14:46', '2025-08-23 18:14:46'),
-(5, 'Malvaceae', 'The mallow family including cotton and okra', '2025-08-23 18:14:46', '2025-08-23 18:14:46');
+(5, 'Malvaceae', 'The mallow family including cotton and okra', '2025-08-23 18:14:46', '2025-08-23 18:14:46'),
+(6, 'Combretaceae', NULL, '2025-09-11 20:08:54', '2025-09-11 20:08:54');
 
 -- --------------------------------------------------------
 
@@ -64,7 +85,8 @@ INSERT INTO `qr_codes` (`qr_id`, `tree_id`, `qr_path`, `created_at`, `is_active`
 (1, 1, 'assets/images/qr_codes/tree_1_1234567890.png', '2025-08-23 18:14:46', 0),
 (2, 2, 'assets/images/qr_codes/tree_2_0987654321.png', '2025-08-23 18:14:46', 0),
 (3, 1, 'assets/images/qr_codes/tree_1_1756930968.png', '2025-09-03 20:22:49', 1),
-(4, 2, 'assets/images/qr_codes/tree_2_1756930976.png', '2025-09-03 20:22:56', 1);
+(4, 2, 'assets/images/qr_codes/tree_2_1756930976.png', '2025-09-03 20:22:56', 1),
+(5, 3, 'assets/images/qr_codes/tree_3_1757625999.png', '2025-09-11 21:26:39', 1);
 
 -- --------------------------------------------------------
 
@@ -74,31 +96,29 @@ INSERT INTO `qr_codes` (`qr_id`, `tree_id`, `qr_path`, `created_at`, `is_active`
 
 CREATE TABLE `trees` (
   `tree_id` int(11) NOT NULL,
-  `scientific_name` varchar(100) NOT NULL,
-  `common_names` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`common_names`)),
+  `scientific_name` varchar(255) NOT NULL,
+  `common_name` varchar(255) DEFAULT NULL,
   `family_id` int(11) NOT NULL,
-  `origin_distribution` text DEFAULT NULL,
-  `physical_description` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `ecological_info` text DEFAULT NULL,
-  `conservation_status` enum('Least Concern','Vulnerable','Endangered') DEFAULT 'Least Concern',
-  `uses_economic` text DEFAULT NULL,
-  `geotag_lat` decimal(10,8) DEFAULT NULL,
-  `geotag_lng` decimal(11,8) DEFAULT NULL,
+  `conservation_status` enum('Least Concern','Vulnerable','Endangered','Critically Endangered') DEFAULT 'Least Concern',
+  `uses_importance` text DEFAULT NULL,
+  `origin_distribution` text DEFAULT NULL,
+  `gps_coordinates` varchar(255) DEFAULT NULL,
+  `qr_code_path` varchar(500) DEFAULT NULL,
   `tree_code` varchar(20) NOT NULL,
-  `health_status` varchar(50) DEFAULT NULL,
-  `remarks` text DEFAULT NULL,
-  `qr_code_path` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `trees`
 --
 
-INSERT INTO `trees` (`tree_id`, `scientific_name`, `common_names`, `family_id`, `origin_distribution`, `physical_description`, `ecological_info`, `conservation_status`, `uses_economic`, `geotag_lat`, `geotag_lng`, `tree_code`, `health_status`, `remarks`, `qr_code_path`, `created_at`, `updated_at`) VALUES
-(1, 'Khaya senegalensis', '[\"African mahogany\", \"Dry zone mahogany\"]', 1, 'Native to Africa, from Senegal east to Sudan and south to Zimbabwe', 'Large deciduous tree growing to 30 m tall, with a trunk up to 1 m diameter. Bark dark grey, fissured. Leaves pinnate, with 3-6 pairs of leaflets. Flowers small, white, in large panicles.', 'Grows in savanna woodlands and along rivers. Important food source for elephants which eat the bark.', 'Least Concern', 'Timber highly valued for furniture, boat building and construction. Bark used in traditional medicine.', 7.44560000, 3.89450000, 'UI-BG-TS-001', 'Healthy', 'Planted in 1985. One of the largest trees in the garden.', 'assets/images/qr_codes/tree_1_1756930968.png', '2025-08-23 18:14:46', '2025-09-03 20:22:49'),
-(2, 'Mangifera indica', '[\"Mango tree\"]', 2, 'Native to South Asia, now cultivated worldwide in tropical regions', 'Large evergreen tree growing to 30-40 m tall. Leaves dark green, glossy, lanceolate. Flowers small, pinkish-white, in panicles. Fruit a large drupe with sweet, juicy flesh.', 'Prefers well-drained soils in tropical climates. Important food source for various animals and insects.', 'Least Concern', 'Fruit widely consumed fresh or processed. Wood used for furniture and construction.', 7.44620000, 3.89510000, 'UI-BG-TS-002', 'Excellent', 'Produces abundant fruit annually. Popular with visitors.', 'assets/images/qr_codes/tree_2_1756930976.png', '2025-08-23 18:14:46', '2025-09-03 20:22:56');
+INSERT INTO `trees` (`tree_id`, `scientific_name`, `common_name`, `family_id`, `description`, `ecological_info`, `conservation_status`, `uses_importance`, `origin_distribution`, `gps_coordinates`, `qr_code_path`, `tree_code`, `created_at`, `updated_at`) VALUES
+(1, 'Enterolobium cyclocarpum (Jacq.) Griseb.', 'Ear Pod Tree', 1, 'A Large deciduous tree that can reach 20–30 meters in height with a thick trunk which is often buttressed at the base; bark grey to light brown, rough with fissures. Leaves are bipinnately compound, with small leaflets that close at night or during drought. Produces distinctive, large, dark brown, ear-shaped pods (up to 12 cm wide) containing several glossy brown seeds. Canopy is broad and spreading, providing extensive shade.', 'Thrives in well-drained soils, tolerates a variety of soil types including sandy and clay soils. Adapted to both wet and dry tropical climates. Nitrogen-fixing species, improving soil fertility. Flowering occurs between December and March; fruits mature between April and June in Nigeria.', 'Least Concern', 'Ornamental and shade tree in parks, gardens, and avenues. Timber is moderately heavy and used for furniture, carpentry, and light construction. Pods are sometimes used as livestock fodder. Seeds have been used in traditional crafts and jewelry. Plays a role in soil enrichment through nitrogen fixation.', 'Native to tropical regions of Central and South America, particularly Mexico, Costa Rica, and Venezuela. Widely introduced and naturalised in tropical Africa, including Nigeria, for ornamental and shade purposes.', '7.4456, 3.8945', 'assets/images/qr_codes/tree_1_1756930968.png', 'UI-BG-TS-001', '2025-09-11 20:08:54', '2025-09-11 20:58:40'),
+(2, 'Terminalia superba Engl. & Diels', 'White afara, Limba', 6, 'A tall deciduous tree reaching 30–45 meters in height. Straight, cylindrical bole often branchless up to 20 meters. The Bark is smooth to slightly fissured, greyish-brown in color. Leaves are simple, arranged in whorls near branch tips, elliptical in shape. Flowers are small, creamy-white, and borne in slender spikes. Fruits are winged, resembling a small propeller.', 'Prefers well-drained, deep loamy soils. Grows best in humid lowland forests with full sunlight. Tolerates secondary forest conditions. Flowers around February to April and fruits between May and July. Provides shade and helps reduce soil erosion.', 'Least Concern', 'Highly valued for timber—lightweight and easy to work with. Used in furniture, veneer, plywood, and interior finishing. Bark is used in traditional medicine for treating cough and infections. Culturally significant in some communities as a symbol of prestige. Often planted for reforestation and ornamental purposes.', 'Native to West and Central Africa. Found in tropical rainforests across Nigeria, Ghana, Cameroon, and Congo. Commonly cultivated in forest reserves and botanical gardens in Nigeria.', NULL, 'assets/images/qr_codes/tree_2_1756930976.pngassets/images/qr_codes/tree_2_1756930976.png', 'UI-BG-TS-002', '2025-09-11 20:08:54', '2025-09-11 20:35:25'),
+(3, 'Roystonea regia (Kunth) O.F.Cook', 'Royal Palm', 3, 'Tall, solitary palm reaching 20–30 meters in height. Smooth, light gray to whitish trunk, swollen at the base and tapering upward. A distinct green crownshaft (smooth, waxy stem section below the leaves) tops the trunk. Crown consists of 15–20 long, pinnate fronds, each up to 4–6 meters long. Inflorescences emerge below the crownshaft, bearing small, creamy-white flowers. Fruits are oval, purplish-black when mature, about 1–2 cm in diameter.', 'Prefers full sunlight and well-drained soils; tolerates a range of soil types from sandy to loamy. Thrives in humid tropical climates but is also drought-tolerant once established. Flowering can occur year-round in Nigeria, but peak fruiting is often during the dry season. Provides perching and feeding sites for birds and bats.', 'Least Concern', 'Highly valued as an ornamental tree for landscaping in gardens, avenues, and institutional grounds. Trunk sometimes used in rural areas for construction. Fruits are eaten by birds and sometimes livestock. Cultural symbol in Cuba and parts of the Caribbean.', 'Native to southern Florida, the Caribbean (especially Cuba), and parts of Central America. Widely cultivated in tropical and subtropical regions worldwide as an ornamental palm, including Nigeria.', NULL, 'assets/images/qr_codes/tree_3_1757625999.png', 'UI-BG-TS-003', '2025-09-11 20:08:54', '2025-09-11 21:26:39');
 
 -- --------------------------------------------------------
 
@@ -120,10 +140,10 @@ CREATE TABLE `tree_photos` (
 --
 
 INSERT INTO `tree_photos` (`photo_id`, `tree_id`, `photo_path`, `caption`, `is_primary`, `created_at`) VALUES
-(1, 1, 'tree_1_primary.jpg', 'Full view of African Mahogany tree', 1, '2025-08-23 18:14:46'),
-(2, 1, 'tree_1_bark.jpg', 'Close-up of bark texture', 0, '2025-08-23 18:14:46'),
 (3, 2, 'tree_2_primary.jpg', 'Mango tree in full bloom', 1, '2025-08-23 18:14:46'),
-(4, 2, 'tree_2_fruit.jpg', 'Ripe mango fruits', 0, '2025-08-23 18:14:46');
+(4, 2, 'tree_2_fruit.jpg', 'Ripe mango fruits', 0, '2025-08-23 18:14:46'),
+(5, 1, 'tree_1_68c3382aab6c9.jpg', '', 0, '2025-09-11 20:59:22'),
+(6, 1, 'tree_1_68c33dfc51be6.jpg', '', 0, '2025-09-11 21:24:12');
 
 -- --------------------------------------------------------
 
@@ -181,9 +201,11 @@ ALTER TABLE `qr_codes`
 ALTER TABLE `trees`
   ADD PRIMARY KEY (`tree_id`),
   ADD UNIQUE KEY `tree_code` (`tree_code`),
-  ADD KEY `idx_trees_family` (`family_id`),
-  ADD KEY `idx_trees_scientific_name` (`scientific_name`),
-  ADD KEY `idx_trees_conservation` (`conservation_status`);
+  ADD KEY `idx_tree_code` (`tree_code`),
+  ADD KEY `idx_scientific_name` (`scientific_name`),
+  ADD KEY `idx_common_name` (`common_name`),
+  ADD KEY `idx_family_id` (`family_id`),
+  ADD KEY `idx_conservation_status` (`conservation_status`);
 
 --
 -- Indexes for table `tree_photos`
@@ -216,25 +238,25 @@ ALTER TABLE `contact_messages`
 -- AUTO_INCREMENT for table `families`
 --
 ALTER TABLE `families`
-  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `qr_codes`
 --
 ALTER TABLE `qr_codes`
-  MODIFY `qr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `qr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `trees`
 --
 ALTER TABLE `trees`
-  MODIFY `tree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `tree_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tree_photos`
 --
 ALTER TABLE `tree_photos`
-  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `photo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -247,22 +269,10 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `qr_codes`
---
-ALTER TABLE `qr_codes`
-  ADD CONSTRAINT `qr_codes_ibfk_1` FOREIGN KEY (`tree_id`) REFERENCES `trees` (`tree_id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `trees`
 --
 ALTER TABLE `trees`
   ADD CONSTRAINT `trees_ibfk_1` FOREIGN KEY (`family_id`) REFERENCES `families` (`family_id`);
-
---
--- Constraints for table `tree_photos`
---
-ALTER TABLE `tree_photos`
-  ADD CONSTRAINT `tree_photos_ibfk_1` FOREIGN KEY (`tree_id`) REFERENCES `trees` (`tree_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

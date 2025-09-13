@@ -111,83 +111,39 @@ require_once '../includes/header.php';
     </div>
 
     <div class="col-md-4">
-    <div class="card mb-4">
-    <div class="card-header bg-light">
-        <h4 class="mb-0">Tree Photos</h4>
-    </div>
-    <div class="card-body">
-        <?php 
-        // Reset the photos pointer and check if we have any photos
-        mysqli_data_seek($photos, 0);
-        $has_photos = false;
-        
-        // First pass: check if any photos exist
-        while ($photo = fetch_assoc($photos)) {
-            if (!empty($photo['photo_path'])) {
-                $has_photos = true;
-                break;
-            }
-        }
-        
-        // Reset pointer again for display
-        mysqli_data_seek($photos, 0);
-        ?>
-        
-        <div id="treePhotosCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="card mb-4">
+        <div class="card-header bg-light">
+          <h4 class="mb-0">Tree Photos</h4>
+        </div>
+        <div class="card-body">
+          <div id="treePhotosCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <?php 
-                $active = true;
-                $displayed_photos = false;
-                
-                while ($photo = fetch_assoc($photos)): 
-                    // Only show if photo_path is not empty
-                    if (!empty($photo['photo_path'])):
-                        $displayed_photos = true;
-                ?>
-                    <div class="carousel-item <?= $active ? 'active' : '' ?>">
-                        <img src="<?= BASE_URL . '/' . TREE_PHOTOS_URL . $photo['photo_path'] ?>" 
-                            class="d-block w-100"
-                            alt="<?= $tree['scientific_name'] ?>"
-                            style="height: 400px; object-fit: cover;">
-                        <?php if (!empty($photo['caption'])): ?>
-                            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
-                                <p><?= $photo['caption'] ?></p>
-                            </div>
-                        <?php endif; ?>
+              <?php $active = true;
+              while ($photo = fetch_assoc($photos)): ?>
+                <div class="carousel-item <?= $active ? 'active' : '' ?>">
+                  <img src="<?= BASE_URL . '/' . TREE_PHOTOS_URL . ($photo['photo_path'] ?? 'tree.png') ?>" 
+                    class="d-block w-100"
+                    alt="<?= $tree['scientific_name'] ?>">
+                  <?php if (!empty($photo['caption'])): ?>
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
+                      <p><?= $photo['caption'] ?></p>
                     </div>
-                <?php 
-                    $active = false;
-                    endif;
-                endwhile; 
-                
-                // If no photos were displayed, show placeholder
-                if (!$displayed_photos): 
-                ?>
-                    <div class="carousel-item active">
-                        <img src="<?= BASE_URL . '/' . TREE_PHOTOS_URL . 'tree.png' ?>" 
-                            class="d-block w-100"
-                            alt="<?= $tree['scientific_name'] ?>"
-                            style="height: 400px; object-fit: cover;">
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50">
-                            <p>No photos available for this tree</p>
-                        </div>
-                    </div>
-                <?php endif; ?>
+                  <?php endif; ?>
+                </div>
+              <?php $active = false;
+              endwhile; ?>
             </div>
-            
-            <?php if ($has_photos): ?>
             <button class="carousel-control-prev" type="button" data-bs-target="#treePhotosCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#treePhotosCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
             </button>
-            <?php endif; ?>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
       <div class="card">
         <div class="card-header bg-light">
